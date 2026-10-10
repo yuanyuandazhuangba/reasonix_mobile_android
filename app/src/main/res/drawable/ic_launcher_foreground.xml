@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Reasonix 自适应图标 - 前景层（R 徽标）
+  几何与电脑端软件图标（assets/icon.svg）逐像素对齐：
+  电脑端以 transform="translate(512 512) scale(1.9) translate(-359.74 -192.62)"
+  把 R 徽标（原始包围盒中心 359.735,192.618）居中于 1024 视口的 (512,512)。
+  此处把同一变换等比换算到 108 视口：
+    scale = 0.2005（使徽标高约 44/108，与电脑端占画布比例一致）
+    translate = (54 - 0.2005*359.735, 54 - 0.2005*192.618) = (-18.1269, 15.3802)
+  变换后徽标中心 = (-18.1269 + 72.1269, 15.3802 + 38.6198) = (54, 54)，即画布正中。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group
+        android:translateX="-18.1269"
+        android:translateY="15.3802"
+        android:scaleX="0.2005"
+        android:scaleY="0.2005">
+
+        <!-- 顶部小卷角 -->
+        <path android:pathData="M369.75,185.3c2.09,1.76,4.98,2.41,7.95,1.06c1.18,-0.54,1.96,-1.91,1.47,-3.25c-3.92,-10.71,-14.97,-18.54,-19.38,-12.48c-0.54,0.74,-0.52,1.7,-0.11,2.29c0.32,0.47,0.97,0.57,1.82,0.4c2.68,-0.56,6.02,1.31,5.7,4.3c-0.33,3.12,0.3,5.79,2.56,7.69Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="262.58"
+                    android:startY="82.87"
+                    android:endX="456.89"
+                    android:endY="302.37">
+                    <item android:offset="0" android:color="#F6DC9A" />
+                    <item android:offset="0.48" android:color="#D4A652" />
+                    <item android:offset="1" android:color="#9A6B25" />
+                </gradient>
+            </aapt:attr>
+        </path>
+
+        <!-- R 主体 -->
+        <path android:pathData="M434.28,204.78c10.12,-11.32,16.46,-25.01,18.67,-40.07c5.04,-32.93,-11.31,-63.01,-42.11,-75.75c-10.83,-4.35,-21.95,-6.2,-33.76,-6.09l-114.5,0.03v219.42s56.29,-0.04,56.29,-0.04v-77.17c-1.86,-0.69,-3.15,-1.27,-3.15,-1.27c-12.24,-5.59,-21.6,-15.29,-26.74,-27.44c-6.56,-15.51,-4.54,-32.9,5.78,-46.12c10.28,-12.84,24.31,-16.92,40.41,-14.67c5.95,0.83,12.3,-6.15,24.4,-4.81c0.81,0.09,1.63,0.7,1.71,1.18c0.28,1.65,-4.4,2.54,-4.4,7.05c0,1.9,0.85,4.1,2.65,5.36c6.17,4.33,11.51,9.19,17.1,14.22c2.72,2.44,11.93,9.31,14.27,3.72c1.37,-3.26,2.27,-6.68,3.18,-10.15c0.45,-1.72,-0.5,-2.74,-1.89,-3.56c-9.5,-5.63,-13.08,-17.35,-9.37,-27.74c0.36,-1,1.29,-1.49,2.08,-1.52c3.19,-0.14,1.49,5.78,9.38,8.21c7.49,2.31,7.71,8.53,11.35,6.05c8.48,-5.78,11.54,-1.05,19.41,-8.46c0.81,-0.76,2.2,-0.82,3.04,-0.23c0.52,0.36,0.97,1.29,0.93,2.38c-0.23,6.26,-2.67,12.24,-6.95,16.84c-8.09,8.69,-14.89,4.53,-15.33,10.62c-1.29,17.86,-7.13,35.69,-19.81,48.66c-0.41,0.42,-0.65,1.01,-0.58,1.41c0.07,0.42,0.57,0.83,1.12,1.01l10.68,3.63c1.51,0.51,2.6,1.87,2.41,3.31c-0.17,1.26,-1.17,2.37,-2.61,2.85c-7.84,2.59,-16.26,2.14,-24.24,-0.27c-10.56,8.89,-23.54,13.48,-37.68,12.93l20.53,28.34,33.49,45.73,66.85,-0.09l-56.68,-76.53c13.19,-3.89,24.78,-10.87,34.07,-20.94Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="262.58"
+                    android:startY="82.87"
+                    android:endX="456.89"
+                    android:endY="302.37">
+                    <item android:offset="0" android:color="#F6DC9A" />
+                    <item android:offset="0.48" android:color="#D4A652" />
+                    <item android:offset="1" android:color="#9A6B25" />
+                </gradient>
+            </aapt:attr>
+        </path>
+
+        <!-- R 内孔圆点 -->
+        <path android:pathData="M360.56,177.19a1.58,1.58 0 1,0 3.16,0a1.58,1.58 0 1,0 -3.16,0Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="262.58"
+                    android:startY="82.87"
+                    android:endX="456.89"
+                    android:endY="302.37">
+                    <item android:offset="0" android:color="#F6DC9A" />
+                    <item android:offset="0.48" android:color="#D4A652" />
+                    <item android:offset="1" android:color="#9A6B25" />
+                </gradient>
+            </aapt:attr>
+        </path>
+
+        <!-- R 左侧弧 -->
+        <path android:pathData="M300.31,167.85c-3.53,0.43,-5.65,2.96,-5.31,6.74c2.39,26.35,26.7,47.92,53.94,42.72c5.8,-1.11,11.08,-3.41,15.36,-7.74c-9.27,-7.98,-13.79,-16.12,-21.41,-24.13c-10.91,-11.47,-26.43,-19.54,-42.58,-17.59Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="262.58"
+                    android:startY="82.87"
+                    android:endX="456.89"
+                    android:endY="302.37">
+                    <item android:offset="0" android:color="#F6DC9A" />
+                    <item android:offset="0.48" android:color="#D4A652" />
+                    <item android:offset="1" android:color="#9A6B25" />
+                </gradient>
+            </aapt:attr>
+        </path>
+    </group>
+</vector>

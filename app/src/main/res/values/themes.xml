@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.ReasonixMobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/brand_gilt</item>
+        <item name="colorPrimaryVariant">@color/brand_gilt_dark</item>
+        <item name="colorOnPrimary">@color/brand_bg</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/brand_gilt</item>
+        <item name="colorSecondaryVariant">@color/brand_gilt_dark</item>
+        <item name="colorOnSecondary">@color/brand_bg</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/brand_bg</item>
+        <item name="android:windowBackground">@color/brand_bg</item>
+        <item name="android:navigationBarColor">@color/brand_bg</item>
+    </style>
+
+    <style name="Theme.ReasonixMobile.Fullscreen" parent="Theme.ReasonixMobile">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>

@@ -1,0 +1,26 @@
+# ---- Gradle ----
+.gradle/
+build/
+
+# ---- 本机 Android SDK 路径，因机器而异，不入库 ----
+local.properties
+
+# ---- IDE ----
+.idea/
+*.iml
+.cxx/
+captures/
+
+# ---- 构建产物（二进制，不入库）----
+*.apk
+*.aab
+*.ap_
+*.dex
+dist/*.apk
+
+# ---- 本次开发会话产生的构建脚本/探针/日志，不入库 ----
+_session_tmp/
+
+# ---- 系统文件 ----
+.DS_Store
+Thumbs.db

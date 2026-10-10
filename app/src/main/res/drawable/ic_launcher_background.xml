@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Reasonix 自适应图标 - 背景层
+  铺满 108x108 画布，使用与电脑端软件图标 tile 一致的深色对角渐变
+  （#23211d -> #0b0a09），系统遮罩后即为深色圆角/圆形底。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="54"
+                android:startY="0"
+                android:endX="54"
+                android:endY="108">
+                <item android:offset="0" android:color="#23211D" />
+                <item android:offset="1" android:color="#0B0A09" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Reasonix Studio 品牌调色板 -->
+    <color name="brand_bg">#07080C</color>
+    <color name="brand_surface">#12141D</color>
+    <color name="brand_surface_light">#1A1D2B</color>
+    <color name="brand_gilt">#E9B456</color>
+    <color name="brand_gilt_dark">#A6680C</color>
+    <color name="brand_ink">#ECE6DA</color>
+    <color name="brand_ink_dim">#8A857B</color>
+    <color name="brand_danger">#E05252</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+</resources>
