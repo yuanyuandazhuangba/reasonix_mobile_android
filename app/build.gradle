@@ -7,6 +7,18 @@ android {
     namespace 'io.reasonix.mobile'
     compileSdk 34
 
+    // 固定调试签名：把 keystore 纳入仓库，使本地构建与 GitHub Actions 构建
+    // 产出完全相同的签名，APK 之间可以相互覆盖安装（否则 CI 每次生成的新
+    // debug 签名都不同，用户升级时必须先卸载、会话数据随之丢失）。
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
     defaultConfig {
         applicationId "io.reasonix.mobile"
         minSdk 24
