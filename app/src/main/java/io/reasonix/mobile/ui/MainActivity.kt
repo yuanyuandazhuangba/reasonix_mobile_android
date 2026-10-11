@@ -191,8 +191,10 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun configureWebView(target: WebView) {
         target.apply {
-            // 强制硬件加速渲染，提升滚动与页面交互流畅度
-            setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            // 刻意不调用 setLayerType(LAYER_TYPE_HARDWARE)：
+            // WebView 本身已由系统硬件加速渲染，再强制整层 software/hardware layer
+            // 会把页面内容缓存成一大张纹理，内容频繁更新（会话流式输出、列表滚动）
+            // 时需要反复重绘整层，反而更慢且更占内存。保持默认即可。
             overScrollMode = View.OVER_SCROLL_NEVER
 
             // 让渲染进程保持较高优先级，降低后台被判为可回收而掉线的概率（API 26+）
@@ -438,6 +440,7 @@ class MainActivity : AppCompatActivity() {
                     val transport = resultMsg?.obj as? WebView.WebViewTransport ?: return false
 
                     val probe = WebView(this@MainActivity)
+                    var handled = false
                     probe.webViewClient = object : WebViewClient() {
                         override fun shouldOverrideUrlLoading(
                             v: WebView?,
@@ -445,11 +448,23 @@ class MainActivity : AppCompatActivity() {
                         ): Boolean {
                             val targetUrl = request?.url?.toString()
                             // 探针只为拿到地址，拿到后立即销毁，不真正渲染
+                            handled = true
                             v?.destroy()
                             if (!targetUrl.isNullOrEmpty()) {
                                 openNewWindowTarget(targetUrl)
                             }
                             return true
+                        }
+
+                        /**
+                         * 目标地址未触发导航（被拦截或加载失败）时也要销毁探针，
+                         * 否则每次点击这类链接都会残留一个隐藏的 WebView 进程。
+                         */
+                        override fun onPageFinished(v: WebView?, url: String?) {
+                            if (!handled) {
+                                handled = true
+                                v?.destroy()
+                            }
                         }
                     }
                     transport.webView = probe
@@ -489,17 +504,12 @@ class MainActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     rendererRecovered = false
 
-                    // 同步 Cookie 确保认证状态持久化
-                    CookieManager.getInstance().flush()
-
                     if (url != null && !url.startsWith("about:blank")) {
                         showEmptyState(false)
-                        // 同样只保存净化后的地址，避免把配对凭据写进本地存储
-                        preferenceManager.lastConnectedUrl = PairingInfo.sanitizedUrl(url)
-                        // 此时页面标题已可用，用它更新历史设备的显示名
-                        preferenceManager.lastConnectedOrigin?.let { origin ->
-                            preferenceManager.rememberDevice(origin, deviceDisplayName())
-                        }
+                        // 这段处在会话切换的热路径上，因此刻意保持轻量：
+                        // Cookie 落盘改由 onStop / 配对完成时触发，这里不再同步 flush()；
+                        // 偏好写入放到下一帧，避免与页面首屏渲染抢主线程。
+                        rememberCurrentUrl(PairingInfo.sanitizedUrl(url))
                         stripCredentialsFromHistory(view ?: webView)
                     }
                 }
@@ -662,6 +672,32 @@ class MainActivity : AppCompatActivity() {
         } catch (_: ActivityNotFoundException) {
             Toast.makeText(this, R.string.open_link_failed, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    /**
+     * 记录当前页面地址（已净化，不含配对凭据）。
+     *
+     * 这是会话切换的热路径，写入本身要序列化并落盘，因此推迟到下一帧执行：
+     * 既避开与页面首屏渲染抢主线程，也不会因为同一批导航连续触发而重复写盘。
+     */
+    private fun rememberCurrentUrl(sanitizedUrl: String) {
+        binding.root.post {
+            preferenceManager.lastConnectedUrl = sanitizedUrl
+            // 此时页面标题已可用，用它更新历史设备的显示名
+            preferenceManager.lastConnectedOrigin?.let { origin ->
+                preferenceManager.rememberDevice(origin, deviceDisplayName())
+            }
+        }
+    }
+
+    /**
+     * 把内存中的 Cookie 同步到磁盘。
+     *
+     * 原实现放在 `onPageFinished` 里，每次页面加载都同步落盘；而 Cookie 的持久化
+     * 只需在「可能退出应用」的时机保证一次即可（配对完成、退到后台）。
+     */
+    private fun persistCookies() {
+        CookieManager.getInstance().flush()
     }
 
     /**
@@ -829,6 +865,8 @@ class MainActivity : AppCompatActivity() {
             preferenceManager.lastConnectedOrigin = pairing.origin
             // 记入历史设备，便于之后在多设备之间直接切换
             preferenceManager.rememberDevice(pairing.origin, deviceDisplayName())
+            // 配对凭据可能刚被页面兑换成 Cookie，落盘一次以免退出应用后失效
+            persistCookies()
         }
         loadStudioUrl(url)
     }
@@ -966,6 +1004,13 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         // 刻意不调用 webView.onPause()：避免暂停 JS 定时器而切断与电脑端的心跳，
         // 这是手机端切到后台后频繁掉线的常见原因。
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // 退到后台是「可能被杀掉」的时机，在这里保证 Cookie 已落盘一次即可，
+        // 从而不必在每次页面加载时同步 flush()
+        persistCookies()
     }
 
     override fun onDestroy() {
