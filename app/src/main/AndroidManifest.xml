@@ -4,6 +4,9 @@
 
     <!-- 相机权限：用于扫码 -->
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- 网页录音/录像请求会转成该运行时权限；未声明时请求会被静默拒绝 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -17,6 +20,17 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!--
+        Android 11+ 的软件包可见性：判断设备上是否存在可用的拍照应用，
+        以便决定网页「拍照上传」时是否提供相机入口。系统相册/文件选择器
+        由 ACTION_GET_CONTENT 的 chooser 处理，无需在此声明。
+    -->
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".ReasonixApp"
         android:allowBackup="true"
@@ -29,6 +43,20 @@
         android:theme="@style/Theme.ReasonixMobile"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <!--
+            拍照上传的临时文件共享通道：相机以 content:// 写入应用私有缓存，
+            避免把外部存储整体暴露给页面，也免去存储权限。
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <!-- 主界面：WebView 承载 Reasonix Studio 控制界面 -->
         <activity

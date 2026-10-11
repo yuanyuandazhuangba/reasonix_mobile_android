@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ReasonixMobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.ReasonixMobile" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/brand_gilt</item>
         <item name="colorPrimaryVariant">@color/brand_gilt_dark</item>

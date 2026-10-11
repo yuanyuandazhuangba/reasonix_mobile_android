@@ -166,6 +166,7 @@ class ScanActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        barcodeAnalyzer?.close()
         cameraExecutor.shutdown()
     }
 }

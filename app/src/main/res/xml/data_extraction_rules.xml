@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android 12+ 的备份 / 迁移规则。
+
+    reasonix_prefs 中保存着最近连接的电脑端地址、已配对的 origin 以及配对 token，
+    属于设备专属的敏感信息，不应随云备份或设备迁移外流，因此显式排除。
+-->
 <data-extraction-rules>
     <cloud-backup>
-        <include domain="sharedpref" path="." />
+        <exclude domain="sharedpref" path="reasonix_prefs.xml" />
     </cloud-backup>
     <device-transfer>
-        <include domain="sharedpref" path="." />
+        <exclude domain="sharedpref" path="reasonix_prefs.xml" />
     </device-transfer>
 </data-extraction-rules>

@@ -9,6 +9,11 @@
     <string name="menu_refresh">刷新当前页面</string>
     <string name="menu_disconnect">断开当前连接</string>
     <string name="menu_device_options">设备与连接操作</string>
+    <string name="menu_switch_device">切换已连接的设备</string>
+    <string name="device_current_marker">\n（当前连接）</string>
+    <string name="device_clear_all">清除全部设备记录</string>
+    <string name="device_clear_all_confirm">将清除本机保存的所有已配对设备与连接信息，下次使用需重新扫码。确定继续吗？</string>
+    <string name="device_cleared">已清除全部设备记录</string>
     <string name="cancel">取消</string>
     <string name="disconnected">已断开连接</string>
     <string name="reconnecting">连接中断，正在自动重连…</string>
@@ -19,6 +24,14 @@
     <string name="empty_desc">扫描电脑端 Reasonix Studio 生成的二维码，即可直接在手机端查看会话并进行远程控制。</string>
     <string name="btn_scan_connect">扫码连接电脑端</string>
     <string name="error_title">连接已中断</string>
+    <string name="error_ssl_untrusted">电脑端证书无法验证，已阻止连接以确保安全。请确认手机连接的是你自己的电脑端 Studio。</string>
+    <string name="dialog_ok">确定</string>
+    <string name="file_chooser_unavailable">当前设备没有可用于选择文件的应用</string>
+    <string name="capture_failed">无法创建拍照临时文件</string>
+    <string name="open_link_failed">没有可打开该链接的应用</string>
+    <string name="download_started">已开始下载，可在通知栏或"下载"中查看</string>
+    <string name="download_failed">下载失败</string>
+    <string name="download_requires_newer_android">当前系统版本无法直接下载，请改在电脑端保存该文件</string>
     <string name="btn_retry">重试连接</string>
     <string name="btn_rescan">重新扫码</string>
 </resources>

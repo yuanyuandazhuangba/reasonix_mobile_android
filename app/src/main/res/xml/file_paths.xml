@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    FileProvider 可共享的路径。
+
+    仅开放应用私有缓存目录下的 images/ 子目录：网页里触发「拍照上传」时，相机写入的
+    原始照片先落到这里，再以 content:// URI 交给页面，避免把整个外部存储暴露出去。
+-->
+<paths>
+    <cache-path name="captures" path="images/" />
+</paths>

@@ -50,8 +50,25 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
+      # 先跑单元测试：PairingInfo 的解析边界（私网判定、端口归一化、畸形输入）是
+      # 本项目唯一被自动化覆盖的逻辑，回归成本低但价值高。
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
+
+      # 版本号取自 tag（如 v1.2.3 → 1.2.3 / 10203），避免 APK 里的版本
+      # 与发布标签长期不一致。
       - name: Build debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: |
+          VERSION_NAME="${GITHUB_REF_NAME#v}"
+          VERSION_CODE=$(echo "$VERSION_NAME" | awk -F. '{printf "%d%02d%02d", $1, $2, $3}')
+          if [ -z "$VERSION_CODE" ]; then
+            echo "无法从 tag 解析版本号：$GITHUB_REF_NAME，回退默认值"
+            VERSION_CODE=1
+          fi
+          echo "versionName=$VERSION_NAME versionCode=$VERSION_CODE"
+          ./gradlew assembleDebug --no-daemon --stacktrace \
+            -PversionName="$VERSION_NAME" \
+            -PversionCode="$VERSION_CODE"
 
       - name: Collect APK
         run: |

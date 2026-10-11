@@ -7,10 +7,11 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import java.io.Closeable
 
 class BarcodeAnalyzer(
     private val onBarcodeDetected: (String) -> Unit
-) : ImageAnalysis.Analyzer {
+) : ImageAnalysis.Analyzer, Closeable {
 
     private val options = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
@@ -19,8 +20,9 @@ class BarcodeAnalyzer(
     private val scanner = BarcodeScanning.getClient(options)
     private var isScanning = true
 
-    fun pause() {
-        isScanning = false
+    /** 释放 ML Kit 扫描器，避免 Activity 反复进出时泄漏原生资源。 */
+    override fun close() {
+        scanner.close()
     }
 
     fun resume() {

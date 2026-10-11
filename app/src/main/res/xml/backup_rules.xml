@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    云备份与设备迁移规则。
+
+    reasonix_prefs 中保存着最近连接的电脑端地址、已配对的 origin 以及配对 token，
+    属于设备专属的敏感信息，一旦随云备份或换机迁移外流，等于把电脑端 Studio 的
+    访问凭据交给第三方存储，因此这里显式排除，只备份其余用户偏好。
+-->
 <full-backup-content>
-    <include domain="sharedpref" path="." />
+    <exclude domain="sharedpref" path="reasonix_prefs.xml" />
 </full-backup-content>

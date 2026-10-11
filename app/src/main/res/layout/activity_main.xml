@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/brand_bg">
@@ -148,13 +149,17 @@
 
     </FrameLayout>
 
-    <!-- 浮动操作悬浮按钮：支持随时点击调出菜单（重新扫码/刷新/断开） -->
+    <!--
+        浮动操作悬浮按钮：支持随时点击调出菜单（重新扫码/刷新/断开）。
+        默认停靠右侧垂直居中而非右下角 —— 右下角与电脑端页面的提示词发送按钮重叠。
+        FloatingFabController 会在此基础上支持拖拽吸附、键盘弹出让位与静止半透明。
+    -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_margin="12dp"
         android:contentDescription="@string/menu_device_options"
         android:src="@drawable/ic_menu"
         app:backgroundTint="@color/brand_gilt"
