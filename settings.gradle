@@ -1,8 +1,27 @@
+// 仓库源策略
+//
+// 背景：原先阿里云镜像放在最前面。这在国内本地构建能显著提速，但有两个问题：
+// 1. 阿里云并不镜像全部产物 —— 例如 com.android.tools.utp（统一测试平台）在
+//    aliyun-gradle-plugin / aliyun-public 上常态返回 404，只有 aliyun-google 与
+//    官方 dl.google.com 才有；
+// 2. 镜像偶发 5xx（实测 CI 上遇到过 502 Bad Gateway），而 Gradle 对 5xx 会直接
+//    判定构建失败、不会回退到后面的仓库，于是 CI 的成功与否被镜像可用性绑住。
+//
+// 因此：CI 环境（GitHub Actions 跑在海外，直连官方源更快）只用官方源；
+// 本地开发仍保留阿里云镜像做加速，两者通过 US_MAVEN 环境变量切换。
+//   CI 中由 workflow 设置 US_MAVEN=true；本地不设即为默认的镜像加速模式。
+//
+// 注意：pluginManagement {} 必须是 settings 脚本里的第一条语句，因此不能先在
+// 外面 def 一个变量，只能在各自的 block 内读取环境变量。
 pluginManagement {
+    def usMavenOnly = System.getenv("US_MAVEN")?.equalsIgnoreCase("true") ?: false
+
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://maven.aliyun.com/repository/google' }
+        if (!usMavenOnly) {
+            maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+            maven { url 'https://maven.aliyun.com/repository/public' }
+            maven { url 'https://maven.aliyun.com/repository/google' }
+        }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -14,14 +33,21 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
+    def usMavenOnly = System.getenv("US_MAVEN")?.equalsIgnoreCase("true") ?: false
+
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://maven.aliyun.com/repository/google' }
+        if (!usMavenOnly) {
+            maven { url 'https://maven.aliyun.com/repository/public' }
+            maven { url 'https://maven.aliyun.com/repository/google' }
+        }
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        if (!usMavenOnly) {
+            maven { url 'https://jitpack.io' }
+        }
     }
 }
 

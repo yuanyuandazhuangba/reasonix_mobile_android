@@ -16,6 +16,12 @@ jobs:
     name: Build APK and publish release
     runs-on: ubuntu-latest
 
+    env:
+      # GitHub Actions 跑在海外，直连官方源比走阿里云镜像更快，也避开了
+      # 镜像不完整（如 com.android.tools.utp 在部分镜像上是 404）与偶发 5xx
+      # （Gradle 遇 5xx 直接失败、不会回退到后续仓库）导致构建失败的问题。
+      US_MAVEN: 'true'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
