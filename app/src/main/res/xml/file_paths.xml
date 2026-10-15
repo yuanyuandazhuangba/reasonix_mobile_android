@@ -2,9 +2,12 @@
 <!--
     FileProvider 可共享的路径。
 
-    仅开放应用私有缓存目录下的 images/ 子目录：网页里触发「拍照上传」时，相机写入的
-    原始照片先落到这里，再以 content:// URI 交给页面，避免把整个外部存储暴露出去。
+    - cache-path images/：网页触发「拍照上传」时，相机写入的原始照片先落到应用私有缓存，
+      再以 content:// URI 交给页面，避免把整个外部存储暴露出去。
+    - files-path logs/：应用日志目录，供「导出日志」经分享面板交给用户，方便排查问题
+      （无需 USB 调试）。日志内容已由调用方脱敏，不含配对凭据。
 -->
 <paths>
     <cache-path name="captures" path="images/" />
+    <files-path name="logs" path="logs/" />
 </paths>

@@ -28,6 +28,7 @@ class PreferenceManager(context: Context) {
         private const val KEY_SAVED_DEVICES = "saved_devices"
         private const val KEY_FAB_SIDE = "fab_side"
         private const val KEY_FAB_VERTICAL_RATIO = "fab_vertical_ratio"
+        private const val KEY_AUTOFILL_CREDENTIALS = "autofill_credentials"
 
         /** 最多记住的历史设备数，避免偏好文件无限增长。 */
         private const val MAX_SAVED_DEVICES = 10
@@ -86,6 +87,19 @@ class PreferenceManager(context: Context) {
             )
         savedDevices = updated
     }
+
+    /**
+     * 是否启用「账号密码自动填充」。
+     *
+     * 默认**关闭**，由用户在悬浮菜单里按需开启。原因：Reasonix 的登录态由网站 Cookie
+     * 自行保持，正常情况下根本不会走到登录页，这个功能只在「登录态过期、需要重新输入」
+     * 时省事；既然触发频率很低，就没必要默认替用户保管账号密码。
+     *
+     * 关闭时 App 完全不接触账号密码：不注入填充脚本、不捕获表单提交、不留存凭据。
+     */
+    var autoFillCredentials: Boolean
+        get() = prefs.getBoolean(KEY_AUTOFILL_CREDENTIALS, false)
+        set(value) = prefs.edit().putBoolean(KEY_AUTOFILL_CREDENTIALS, value).apply()
 
     /**
      * 悬浮菜单按钮吸附的侧别，取值 [FAB_SIDE_LEFT] 或 [FAB_SIDE_RIGHT]。
